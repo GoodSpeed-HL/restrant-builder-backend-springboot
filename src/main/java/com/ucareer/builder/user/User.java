@@ -49,10 +49,10 @@ public class User {
     private Date modifiedAt;
 
 
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "landing_id")
-//    @JsonIgnore
-//    private Landing landing;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "landing_id")
+    @JsonIgnore
+    private Landing landing;
 
     private String firstName;
     private String lastName;
@@ -150,5 +150,13 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Landing getLanding() {
+        return landing;
+    }
+
+    public void setLanding(Landing landing) {
+        this.landing = landing;
     }
 }

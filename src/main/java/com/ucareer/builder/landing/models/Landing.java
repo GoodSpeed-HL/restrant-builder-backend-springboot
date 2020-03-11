@@ -47,17 +47,17 @@ public class Landing {
     @JoinColumn(name = "menu_id", referencedColumnName = "id")
     private Menu menu;
 
-//    @OneToOne(mappedBy = "Landing", cascade = {CascadeType.ALL})
-//    @JsonIgnore
-//    private User user;
+    @OneToOne(mappedBy = "landing", cascade = {CascadeType.ALL})
+    @JsonIgnore
+    private User user;
 
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
