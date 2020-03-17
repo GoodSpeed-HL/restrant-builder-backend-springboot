@@ -119,7 +119,9 @@ public class UserService {
 
     public User updateUser(User userInDb, User newUser) {
 
-
+        userInDb.setAddress(newUser.getAddress());
+        userInDb.setFirstName(newUser.getFirstName());
+        userInDb.setLastName(newUser.getLastName());
         User savedUser = repository.save(userInDb);
 
         return savedUser;
