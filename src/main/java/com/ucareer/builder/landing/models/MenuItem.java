@@ -23,6 +23,9 @@ public class MenuItem {
     @Column(columnDefinition = "varchar(255) default ''")
     private String price;
 
+    @Column(columnDefinition = "varchar(255) default ''")
+    private String imageUrl;
+
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "menu_id")
     @JsonIgnore
@@ -74,5 +77,13 @@ public class MenuItem {
 
     public void setMenu(Menu menu) {
         this.menu = menu;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

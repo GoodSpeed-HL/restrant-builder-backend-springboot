@@ -6,7 +6,9 @@ import com.ucareer.builder.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service("LandingService")
@@ -154,4 +156,117 @@ public class LandingService {
         }
         return landingRepository.save(oldLanding);
     }
+
+    public Landing save(Landing builder, User user) {
+
+        Landing landing = user.getLanding();
+        if(landing == null){
+            //todo insert
+            landing = new Landing();
+            landing.setName(builder.getName());
+
+
+            Head h = new Head();
+            h.setTitle(builder.getHead().getTitle());
+            h.setDescription(builder.getHead().getDescription());
+            h.setImgUrl(builder.getHead().getImgUrl());
+            h.setLanding(landing);
+
+            landing.setHead(h);
+
+            Gallery g = new Gallery();
+            g.setTitle(builder.getGallery().getTitle());
+            g.setDescription(builder.getGallery().getDescription());
+            g.setLanding(landing);
+
+            //galley items is an list
+            if(builder.getGallery().getGalleryItem().size() > 0) {
+                Set<GalleryItem> galleryItemList = new HashSet<>();
+                for (GalleryItem item : builder.getGallery().getGalleryItem()) {
+                    item.setGallery(g);
+                    galleryItemList.add(item);
+                }
+                g.setGalleryItem(galleryItemList);
+            }
+
+            landing.setGallery(g);
+
+            Menu m = new Menu();
+            m.setTitle(builder.getMenu().getTitle());
+            m.setDescription(builder.getMenu().getDescription());
+            m.setLanding(landing);
+
+            if(builder.getMenu().getMenuItems().size() > 0) {
+                Set<MenuItem> menuItemList = new HashSet<MenuItem>();
+                for (MenuItem item : builder.getMenu().getMenuItems()) {
+                    item.setMenu(m);
+                    menuItemList.add(item);
+                }
+                m.setMenuItems(menuItemList);
+            }
+
+            landing.setMenu(m);
+            user.setLanding(landing);
+            //landing.setUser(user);
+
+
+            Landing savedLanding = landingRepository.save(landing);
+            return savedLanding;
+        }
+        else{
+            //todo update
+            landing.setName(builder.getName());
+            Head h = landing.getHead();
+            h.setTitle(builder.getHead().getTitle());
+            h.setDescription(builder.getHead().getDescription());
+            h.setImgUrl(builder.getHead().getImgUrl());
+            h.setLanding(landing);
+
+            landing.setHead(h);
+
+            Gallery g = landing.getGallery();
+            g.setTitle(builder.getGallery().getTitle());
+            g.setDescription(builder.getGallery().getDescription());
+            g.setLanding(landing);
+
+            //galley items is an list
+            if(builder.getGallery().getGalleryItem().size() > 0) {
+                // List<GalleryItem> galleryItemList = new ArrayList<GalleryItem>();
+                landing.getGallery().getGalleryItem().clear();
+                for (GalleryItem item : builder.getGallery().getGalleryItem()) {
+                    item.setGallery(g);
+                    landing.getGallery().getGalleryItem().add(item);
+                }
+            }
+
+            landing.setGallery(g);
+
+
+            Menu m = landing.getMenu();
+            m.setTitle(builder.getMenu().getTitle());
+            m.setDescription(builder.getMenu().getDescription());
+            m.setLanding(landing);
+
+            if(builder.getMenu().getMenuItems().size() > 0) {
+                landing.getMenu().getMenuItems().clear();
+                landing.getMenu().getMenuItems().addAll(builder.getMenu().getMenuItems());
+                //List<MenuItem> menuItemList = new ArrayList<MenuItem>();
+                for (MenuItem item : builder.getMenu().getMenuItems()) {
+                    item.setMenu(m);
+                    landing.getMenu().getMenuItems().add(item);
+                }
+            }
+            landing.setMenu(m);
+            user.setLanding(landing);
+            Landing savedLanding = landingRepository.save(landing);
+            return savedLanding;
+        }
+    }
+
+
+    public Landing getBuilderById(Long id){
+        return landingRepository.findById(id).orElse(null);
+    }
+
+
 }

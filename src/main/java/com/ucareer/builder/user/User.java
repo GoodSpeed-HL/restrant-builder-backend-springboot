@@ -50,7 +50,7 @@ public class User {
     private Date modifiedAt;
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "landing_id")
     @JsonIgnore
     private Landing landing;
