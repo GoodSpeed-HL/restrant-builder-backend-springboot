@@ -21,8 +21,8 @@ public class LandingController {
     @Autowired
     LandingService landingService;
 
-    @GetMapping("/me/builder")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @GetMapping("/me/landing")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<CoreResponseBody> mineBuilder(@RequestHeader("Authorization") String authHeader) {
         String token = this.getJwtTokenFromHeader(authHeader);
         CoreResponseBody res;
@@ -32,10 +32,6 @@ public class LandingController {
         }
 
         User user = userService.getUserByToken(token);
-        //todo: way 1: builderService => getBuilderByUser
-        //    todo: create builderRepository => findBuilderByUser Builder obj
-
-        // todo: modified
         if (user == null) {
             res = new CoreResponseBody(null, "invalid token", new Exception("invalid token"));
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res);
@@ -45,8 +41,8 @@ public class LandingController {
     }
 
 
-    @PostMapping("/me/builder")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/me/landing")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<CoreResponseBody> editBuilder(@RequestHeader("Authorization") String authHeader, @RequestBody Landing builder) {
         String token = this.getJwtTokenFromHeader(authHeader);
         CoreResponseBody res;

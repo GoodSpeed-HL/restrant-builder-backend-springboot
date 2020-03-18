@@ -38,14 +38,14 @@ public class UserController {
 
     //localhsot:8080/api/hello
     @GetMapping("/hello")
-    @CrossOrigin("http://localhost:4200")
+    @CrossOrigin("*")
     public ResponseEntity<String> hello() {
         return ResponseEntity.ok("hello world");
     }
 
     //localhsot:8080/api/register
     @PostMapping("/register")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<CoreResponseBody> register(@RequestBody User user) {
         //call user service to insert user
         User savedUser = userService.register(user);
@@ -94,7 +94,7 @@ public class UserController {
     //write login api, return token
     @PostMapping("/login")
     //give peremission for port 4200 to access this port
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<CoreResponseBody> login(@RequestBody User user) {
         CoreResponseBody res;
 
@@ -117,7 +117,7 @@ public class UserController {
 
     // go to profile page
     @GetMapping("/me")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<CoreResponseBody> me(@RequestHeader("Authorization") String authHeader) {
         String token = this.getJwtTokenFromHeader(authHeader);
         CoreResponseBody res;
@@ -138,7 +138,7 @@ public class UserController {
 
     // update user profile
     @PostMapping("/me")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "*")
 
     public ResponseEntity<CoreResponseBody> me(
             @RequestHeader("Authorization") String authHeader,
@@ -168,7 +168,7 @@ public class UserController {
     }
 
     @PostMapping("/passchange")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = "*")
     public ResponseEntity<CoreResponseBody> passchange(
             @RequestHeader("Authorization") String authHeader,
             @RequestBody ResetPasswordRequest password) {
