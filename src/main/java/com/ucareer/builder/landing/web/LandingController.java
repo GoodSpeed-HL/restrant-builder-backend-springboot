@@ -21,6 +21,20 @@ public class LandingController {
     @Autowired
     LandingService landingService;
 
+    @GetMapping("/landing/{id}")
+    @CrossOrigin(origins = "*")
+    public ResponseEntity<CoreResponseBody> getBuilderById(@PathVariable Long id) {
+        CoreResponseBody res;
+        Landing landing = landingService.getBuilderById(id);
+        if (landing == null) {
+            res = new CoreResponseBody(null, "landing page not found", new Exception("invalid resource"));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+        }
+        res = new CoreResponseBody(landing, "get user by landing id", null);
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+    }
+
+
     @GetMapping("/me/landing")
     @CrossOrigin(origins = "*")
     public ResponseEntity<CoreResponseBody> mineBuilder(@RequestHeader("Authorization") String authHeader) {
@@ -62,8 +76,6 @@ public class LandingController {
 
         res = new CoreResponseBody(savedBuilder, "builder data", null);
         return ResponseEntity.status(HttpStatus.OK).body(res);
-
-
     }
 
     @GetMapping("/builder/getMine")
